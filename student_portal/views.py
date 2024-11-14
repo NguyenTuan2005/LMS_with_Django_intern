@@ -238,7 +238,7 @@ def course_list(request):
             recommended_course.save()
 
     # Pagination setup
-    paginator = Paginator(courses, 6)  # Show 6 courses per page
+    paginator = Paginator(courses, 8)  # Show 8 courses per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
