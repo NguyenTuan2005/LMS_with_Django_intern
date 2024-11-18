@@ -42,39 +42,3 @@ h1 {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 15px;
 }
-
-/* Phân trang */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-    color: #0561ab;
-}
-
-.step-links a {
-    color: #333;
-    padding: 5px 10px;
-    margin: 0 5px;
-    text-decoration: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.step-links a:hover {
-    background-color: #f0f0f0;
-}
-
-.step-links .disabled {
-    color: #aaa;
-    padding: 5px 10px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: not-allowed;
-}
-
-.current {
-    font-weight: bold;
-}
