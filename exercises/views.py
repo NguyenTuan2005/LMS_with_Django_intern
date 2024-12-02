@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, urlencode
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from cheat_logger.utils.encryption_handler import Data_Encryption
 from django.core.paginator import Paginator
 from .libs.submission import grade_submission, precheck
@@ -69,6 +70,32 @@ def exercise_add(request):
         form = ExerciseForm()
 
     return render(request, 'exercise_add.html', {'form': form})
+
+@login_required
+def delete_exercise(request, exercise_id):
+    exercise = get_object_or_404(Exercise, id=exercise_id)
+    
+    if request.method == "POST":
+        exercise.delete()
+        messages.success(request, 'The exercise has been deleted.')
+        return redirect('exercises:exercise_list')
+
+    return render(request, 'error.html', {'error': 'Invalid request method.'})
+
+@login_required
+def delete_exercises_bulk(request):
+    if request.method == "POST":
+        ids = request.POST.getlist('ids')
+        if ids:
+            exercises = Exercise.objects.filter(id__in=ids)
+            exercises_deleted_count = exercises.count()
+            exercises.delete()
+            messages.success(request, f"{exercises_deleted_count} exercises have been deleted.")
+            return redirect('exercises:exercise_list')
+        else:
+            messages.error(request, "No exercises selected for deletion.")
+            return redirect('exercises:exercise_list')
+    return render(request, 'error.html', {'error': 'Invalid request method.'})
 
 @login_required
 def exercise_detail(request, exercise_id, assessment_id=None):
